@@ -1,0 +1,39 @@
+;  initialize control
+Set reference MyRef to $cobj
+JavaScript: MyPillRef=$(MyRef.elem).find('select')
+JavaScript: MyPillRef.select2();
+JavaScript: gPillRef=MyPillRef
+Calculate MyTip as MyRef.$tooltip
+JavaScript: MyPillRef.data().placeholder=MyTip
+
+;  populate list from Lookup list
+;  extract lookup list and cols
+Calculate MyUserinfo as $cobj.$userinfo
+JavaScript: var MyArray=MyUserinfo.split(',')
+JavaScript: MyLookupListName=MyArray[0].split('.')[0]
+JavaScript: MyLookupListTextCol=MyArray[0].split('.')[1]
+JavaScript: MyLookupListIdCol=MyArray[1].split('.')[1]
+If isclear(MyLookupListIdCol)
+	Calculate MyLookupListIdCol as MyLookupListTextCol
+End If
+;  build arrays     ;; - else you could just take Text and id from the omnis list
+JavaScript: var MyIdArray=[]
+JavaScript: MyIdArray=__form.get(MyLookupListName).$colData(MyLookupListIdCol)     ;; ;; function $colData is provided by user.js - extracts the list.colmn specified in $userinfo (build in $init for this example)
+JavaScript: var MyTextArray=[]
+JavaScript: MyTextArray=__form.get(MyLookupListName).$colData(MyLookupListTextCol)
+JavaScript: MyCount=MyIdArray.length-1
+For MyCounter from 0 to MyCount step 1
+	JavaScript: MyPillRef.append(new Option(MyTextArray[MyCounter], MyIdArray[MyCounter], false, false));     ;; .trigger('change');
+End For
+JavaScript: MyPillRef.trigger('change');     ;; activate changes
+
+;  bind event
+JavaScript: MyPillRef.on('change',  function(ev) {gEv=ev,__form.clientEvCode='evPillChange';MyRef.callMethodEx('$event',0,ev.val);});
+
+;  use selected list lines
+JavaScript: __form.get('LIST').lstLSEL.filter(function(c,i) { if (c==1) {MyValue+=(i+1+',')};})     ;; use selected list lines
+;  Calculate MyValue as '1,4'     ;; else you could just put the ids into CHAR / $cobj.$dataname
+Calculate $cinst.[$cobj.$dataname] as MyValue
+
+;  redraw control with the values set
+Do method $cfield.$redraw

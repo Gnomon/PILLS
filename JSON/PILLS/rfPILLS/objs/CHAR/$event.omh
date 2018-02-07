@@ -1,0 +1,2 @@
+On evAfter,evKeyPress
+	Do $cinst.$redraw()

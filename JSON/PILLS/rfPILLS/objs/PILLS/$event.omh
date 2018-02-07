@@ -1,0 +1,7 @@
+On evPillChange
+	Calculate MyArray as pArray
+	JavaScript: MyValue = (typeof MyArray!='undefined')? MyArray.toString():'parameterMissing'
+	If MyValue='parameterMissing'
+	Else
+		Calculate $cinst.[$cobj.$dataname] as MyValue
+	End If

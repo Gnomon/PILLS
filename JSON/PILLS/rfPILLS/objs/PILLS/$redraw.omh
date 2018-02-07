@@ -1,0 +1,7 @@
+Calculate MyValue as $cinst.[$cobj.$dataname]
+JavaScript: MyArray=MyValue.split(',')
+
+Set reference MyRef to $cobj
+JavaScript: MyPillRef=$(MyRef.elem).find('select')
+
+JavaScript: MyPillRef.val(MyArray).trigger('change')

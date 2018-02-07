@@ -1,0 +1,30 @@
+;  //dummy list
+Do LIST.$define(RSN,ICON_URL,TITLE_,DESCRIPTION)
+Do LIST.$add(1,'','English','weird')
+Do LIST.$add(2,'','French','test')
+Do LIST.$add(3,'test','Spanish')
+Do LIST.$add(4,'','Italian')
+Do LIST.$add(5,'','Omnis')
+Do LIST.$add(6,'','German')
+Do LIST.$add(7,'','Dutch')
+Do LIST.$add(8,'','Portuguese')
+Do LIST.$add(9,'','Danish')
+Do LIST.$add(10,'','Swedish')
+Do LIST.$add(11,'','Norwegian')
+Do LIST.$add(12,'','Islandic')
+Do LIST.$add(13,'','Celtic')
+
+;  select some lines
+Do LIST.[5].$selected.$assign(kTrue)
+Do LIST.[11].$selected.$assign(kTrue)
+
+Begin text block
+;  Text: {css/theme-default/bootstrap.css,}
+Text: {css/theme-default/libs/select2/select2.css,}
+;  Text: {js/libs/select2/select2.min.js}
+End text block
+Get text block MyDependencies
+JavaScript: provide_headerfiles(MyDependencies)     ;; function provided by user.js
+
+
+;
